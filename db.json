@@ -1,0 +1,24 @@
+{
+  "posts": [
+    { "id": 1, "title": "Hello World" },
+    { "id": 2, "title": "Hello Again" },
+    { "id": 3, "title": "Hello Again" }
+  ],
+  "comments": [
+    { "id": 1, "body": "Nice post!", "postId": 1 },
+    { "id": 2, "body": "Thanks :)", "postId": 1 },
+    { "id": 3, "body": "How are you today?", "postId": 2 }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin"
+    },
+    {
+      "id": 2,
+      "username": "user",
+      "password": "user"
+    }
+  ]
+}
