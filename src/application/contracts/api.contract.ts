@@ -1,6 +1,6 @@
 export interface ApiContract<T> {
-  get(url: string): Promise<T>;
-  post(url: string, data: T): Promise<T>;
-  put(url: string, data: T): Promise<T>;
-  delete(url: string): Promise<T>;
+  get(url: string): Promise<T | null>;
+  post(url: string, data: Omit<T, 'id'>): Promise<T>;
+  put(url: string, data: Partial<T>): Promise<T>;
+  delete(url: string): Promise<T | null>;
 }

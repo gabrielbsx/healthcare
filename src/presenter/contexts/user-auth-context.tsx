@@ -18,7 +18,9 @@ function UserAuthProvider({ children }: { children: ReactNode }) {
   const { userAuth } = useLoadAuthUser();
 
   useEffect(() => {
-    setUser(userAuth);
+    if (userAuth) {
+      setUser(userAuth);
+    }
   }, [userAuth]);
 
   return (

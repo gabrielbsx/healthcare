@@ -3,14 +3,14 @@ import { loadAuthUserUseCaseFactory } from "@/main/factory/load-auth-usecase.fac
 import { useEffect, useState } from "react";
 
 function useLoadAuthUser() {
-  const [userAuth, setUserAuth] = useState<UserEntityProps | null>(null);
+  const [userAuth, setUserAuth] = useState<UserEntityProps | null>();
 
   async function fetchUserAuth() {
     const loadAuthUserUseCase = loadAuthUserUseCaseFactory();
 
     const user = await loadAuthUserUseCase.execute();
 
-    setUserAuth(user);
+    setUserAuth(user || null);
   }
 
   useEffect(() => {

@@ -5,11 +5,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/presenter/components/ui/card";
-import { FormDescription } from "@/presenter/components/ui/form";
+import {
+  Form,
+  FormDescription,
+  FormField,
+} from "@/presenter/components/ui/form";
 import { Input } from "@/presenter/components/ui/input";
 import { Label } from "@/presenter/components/ui/label";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInUseCaseFactory } from "@/main/factory/sign-in-usecase.factory";
@@ -26,12 +30,9 @@ type LoginProps = z.infer<typeof loginSchema>;
 
 function Login() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const formLogin = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
@@ -48,6 +49,8 @@ function Login() {
         title: "Login efetuado com sucesso",
         description: "Você será redirecionado para a página inicial",
       });
+
+      navigate("/");
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -76,59 +79,73 @@ function Login() {
             <CardTitle className="text-center">Entre com sua conta</CardTitle>
           </CardHeader>
           <CardContent>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-4"
-            >
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="username">Usuário</Label>
-                <Input
-                  type="text"
-                  id="username"
-                  placeholder="Escreva seu usuário"
-                  {...register("username", {
-                    required: "Username is required",
-                  })}
+            <Form {...formLogin}>
+              <form
+                onSubmit={formLogin.handleSubmit(onSubmit)}
+                className="flex flex-col gap-4"
+              >
+                <FormField
+                  control={formLogin.control}
+                  name="username"
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="username">Usuário</Label>
+                      <Input
+                        type="text"
+                        id="username"
+                        placeholder="Escreva seu usuário"
+                        {...field}
+                      />
+                      {fieldState.error && (
+                        <FormDescription>
+                          {fieldState.error.message}
+                        </FormDescription>
+                      )}
+                    </div>
+                  )}
                 />
-                {errors.username && (
-                  <FormDescription>{errors.username.message}</FormDescription>
-                )}
-              </div>
 
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="password">Senha</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder="Escreva sua senha"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
+                <FormField
+                  control={formLogin.control}
+                  name="password"
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="password">Senha</Label>
+                      <Input
+                        type="password"
+                        id="password"
+                        placeholder="Escreva sua senha"
+                        {...field}
+                      />
+                      {fieldState.error && (
+                        <FormDescription>
+                          {fieldState.error.message}
+                        </FormDescription>
+                      )}
+                    </div>
+                  )}
                 />
-                {errors.password && (
-                  <FormDescription>{errors.password.message}</FormDescription>
-                )}
-              </div>
 
-              <Button type="submit" className="w-full mt-4">
-                Entrar
-              </Button>
+                <Button type="submit" className="w-full mt-4">
+                  Entrar
+                </Button>
 
-              <div className="flex justify-between mt-4">
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-zinc-500 hover:underline"
-                >
-                  Esqueceu a senha?
-                </Link>
-                <Link
-                  to="/register"
-                  className="text-sm text-zinc-500 hover:underline"
-                >
-                  Cadastre-se
-                </Link>
-              </div>
-            </form>
+                <div className="flex justify-between mt-4">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-zinc-500 hover:underline"
+                  >
+                    Esqueceu a senha?
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="text-sm text-zinc-500 hover:underline"
+                  >
+                    Cadastre-se
+                  </Link>
+                </div>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

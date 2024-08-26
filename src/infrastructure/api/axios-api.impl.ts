@@ -21,7 +21,7 @@ export abstract class AxiosApiImpl<T> implements ApiContract<T> {
     return data;
   }
 
-  async post(url: string, data: T): Promise<T> {
+  async post(url: string, data: Omit<T, 'id'>): Promise<T> {
     const response = await this.api.post<T>(url, data);
 
     const { data: responseData } = response;
@@ -29,7 +29,7 @@ export abstract class AxiosApiImpl<T> implements ApiContract<T> {
     return responseData;
   }
 
-  async put(url: string, data: T): Promise<T> {
+  async put(url: string, data: Partial<T>): Promise<T> {
     const response = await this.api.put<T>(url, data);
 
     const { data: responseData } = response;

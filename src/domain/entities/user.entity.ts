@@ -1,4 +1,5 @@
 export interface UserEntityProps {
+  id: string;
   name: string;
   gender: "male" | "female" | "other";
   dateOfBirth: Date;

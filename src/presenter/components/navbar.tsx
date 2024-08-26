@@ -3,7 +3,6 @@ import useLoadAuthUser from "../hooks/use-load-auth-user";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
@@ -32,11 +31,12 @@ function Navbar() {
                       Boolean(route.isPrivate) !==
                       Boolean(isAuthenticate) ? null : (
                         <NavigationMenuItem key={route.path}>
-                          <NavigationMenuLink
+                          <Link
                             className={navigationMenuTriggerStyle()}
+                            to={route.path}
                           >
-                            <Link to={route.path}>{route.name}</Link>
-                          </NavigationMenuLink>
+                            {route.name}
+                          </Link>
                         </NavigationMenuItem>
                       )
                     )}
