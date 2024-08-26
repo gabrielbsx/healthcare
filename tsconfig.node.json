@@ -23,5 +23,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+  "types": ["@types/jest"],
   "include": ["vite.config.ts"]
 }
